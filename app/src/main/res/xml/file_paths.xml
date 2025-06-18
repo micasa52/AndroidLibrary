@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Represents files in the root of the external storage area.
+    The root path of this subdirectory is the same as the value returned by
+     Environment.getExternalStorageDirectory() -->
+    <external-path name="misImagenes" path="BonolotoImagenes" />
+<!--    <external-path name="misBoletos" path="BonolotoBoletos" />-->
+
+    <!--
+        Define las rutas que tu FileProvider puede compartir.
+        Si guardas en el directorio Pictures específico de la app:
+        Context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    -->
+<!--    <external-files-path name="my_images" path="Pictures/" />-->
+
+    <!-- Si quieres guardar en una subcarpeta dentro de Pictures específico de la app -->
+    <external-files-path name="my_subfolder" path="Pictures/MiAppFotos/" />
+
+    <!-- Si quieres guardar en la raíz del almacenamiento específico de la app -->
+    <!-- <external-files-path name="my_root_files" path="." /> -->
+
+    <!-- Represents files in the files/ subdirectory of your app's internal storage area.
+    This subdirectory is the same as the value returned by Context.getFilesDir() -->
+<!--    <files-path name="mis_boletos" path="mis_boletos"/>-->
+</paths>

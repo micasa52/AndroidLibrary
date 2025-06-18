@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ismael.librerias.MainActivity">
+
+    <EditText
+        android:id="@+id/txt_texto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_guardar"
+        android:hint="Texto a guardar" />
+
+    <Button
+        android:id="@+id/btn_guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_texto"
+        app:layout_constraintBottom_toTopOf="@+id/lbl_texto"
+        android:text="GUARDAR TEXTO"/>
+
+    <TextView
+    android:id="@+id/lbl_texto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/btn_guardar"
+    app:layout_constraintBottom_toTopOf="@+id/btn_leer"
+    android:hint="Texto a visualizar" />
+
+    <Button
+        android:id="@+id/btn_leer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_texto"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        android:text="LEER TEXTO"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_leer"
+        app:layout_constraintBottom_toTopOf="@+id/btn_foto"
+        android:background="#dddddd"/>
+    
+    <Button
+        android:id="@+id/btn_foto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="SACAR Y GUARDAR FOTO"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
