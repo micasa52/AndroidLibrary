@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Librerías"
 include ':app'
+include ':borrar'
 include ':MiLibreriaUtilidades'
+include ':mylibrary'

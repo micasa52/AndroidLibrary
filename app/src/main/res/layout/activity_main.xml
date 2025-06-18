@@ -15,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btn_guardar"
-        android:text="Esto es un texto para hacer una prueba"
         android:hint="Texto a guardar" />
 
     <Button
