@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -416,14 +417,11 @@ public class GestorArchivos {
     /**
      * Guarda una imágen en un archivo dentro del almacenamiento interno específico de la app.
      *
-     * @param context       Contexto de la aplicación.
      * @param bitmap        Imagen a guardar.
      * @param nombreCarpeta Nombre de la carpeta a crear.
      * @param nombreArchivo Nombre del archivo a crear/sobrescribir.
      * @return true si se guardó correctamente, false en caso contrario.
      */
-    public static boolean guardarBitmapEnMediaStore(Context context, Bitmap bitmap, String nombreCarpeta, String nombreArchivo) {
-        if (context == null || bitmap == null || nombreCarpeta == null || nombreCarpeta.isEmpty() ||
                 nombreArchivo == null || nombreArchivo.isEmpty()) {
             Log.i(TAG_INFO, "Error de parámetros. No validos");
             return false;
@@ -477,6 +475,7 @@ public class GestorArchivos {
 
         return imagenFile;
     }
+
     /**
      * Obtiene un File con la dirección del nombreArchivo en una subcarpeta en la zona externa del ámbito de la app
      * Environment.getExternalStorageDirectory()
@@ -567,7 +566,6 @@ public class GestorArchivos {
         msn = mensaje;
     }
 
-    public String getMsn(){
         return msn;
     }
 }

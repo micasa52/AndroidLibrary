@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.ismael.libreras.R;
 import com.ismael.milibreriautilidades.GestorArchivos;
 import com.ismael.milibreriautilidades.GestorPermisos;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri uriImagenArchivoCamara;
 
     private String msn = "";
+    private String contenido = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,32 +111,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void accion_btn_guardar2() {
-        String texto = txt_texto.getText().toString();
+        contenido = txt_texto.getText().toString();
         boolean guardado = false;
 
-        if(texto != null && !texto.isEmpty()){
+        if(contenido != null && !contenido.isEmpty()){
             Intent contenidoIntent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            Bundle bundle = new Bundle();
-            bundle.putString(TAG_CONTENIDO, texto);
             contenidoIntent.addCategory(Intent.CATEGORY_OPENABLE);
             contenidoIntent.setType("text/plain");  // Tipo MIME para archivos de texto
-            contenidoIntent.putExtra(Intent.EXTRA_TITLE, NOMBRE_ARCHIVO_DOCUMENTO);
-            contenidoIntent.putExtra(TAG_CONTENIDO, bundle);
+            contenidoIntent.putExtra(Intent.EXTRA_TITLE, NOMBRE_ARCHIVO_DOCUMENTO); // EXTRA_TITLE para especificar el nombre del archivo
 
             // Opcional: Especificar un directorio inicial (puede que no todos los selectores lo respeten)
-            // Uri documentsUri = MediaStore.Downloads.EXTERNAL_CONTENT_URI; // Por ejemplo, directorio de descargas
-            // intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, documentsUri);
+            Uri documentsUri = null; // Por ejemplo, directorio de descargas
+            // PARA VERSIONES >= Q
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                documentsUri = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
+            }else
+            // PARA VERSIONES < Q
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
+                try {
+                    documentsUri = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO).toURI();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
 
+            contenidoIntent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, documentsUri);
+
+            /* Lanza el explorador para que puedas seleccionar un archivo.
+             * El nombre del archivo se especifica en el intent con EXTRA_TITLE.*/
             crearDocumentoLauncher.launch(contenidoIntent);
         }
     }
 
     private void accion_btn_guardar() {
-        String texto = txt_texto.getText().toString();
+        contenido = txt_texto.getText().toString();
         boolean guardado = false;
 
-        if(texto != null && !texto.isEmpty()) {
-            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, texto);
+        if(contenido != null && !contenido.isEmpty()) {
+            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido);
             if (guardado) {
                 Toast.makeText(this, "El texto se ha guardado correctamente", Toast.LENGTH_LONG).show();
 //                txt_texto.setText("");
@@ -295,13 +308,13 @@ public class MainActivity extends AppCompatActivity {
             result ->{
                 int resultCode = result.getResultCode();
                 Intent dataIntent = result.getData();
-                Bundle bundle = dataIntent.getExtras();
-                String archivo = bundle.getString(Intent.EXTRA_TITLE);
-                String contenido = dataIntent.getStringExtra(TAG_CONTENIDO);
                 if(resultCode == Activity.RESULT_OK && dataIntent != null){
                     Uri uri = result.getData().getData();
                     if(uri != null){
-                        escribirTextoEnUri(uri, archivo, contenido);
+                        GestorArchivos.escribirTextoEnUri(this, uri, contenido);
+                        msn = GestorArchivos.getMsn();
+                        Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
+
                     }else{
                         msn = "No se pudo obtener el URI.";
                         Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
@@ -311,19 +324,4 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
                 }
             });
-
-    private void escribirTextoEnUri(Uri uri, String archivo, String contenido) {
-        try{
-            OutputStream os = getContentResolver().openOutputStream(uri);
-            if(os != null){
-                os.write(contenido.getBytes(StandardCharsets.UTF_8));
-                msn = "Archivo guardado en: " + uri.toString();
-                Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
-            }
-        }catch (IOException ioe){
-            msn = "Error al guardar archivo " + ioe.getMessage();
-            Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
-            ioe.printStackTrace();
-        }
-    }
 }
