@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.ismael.libreras'
+    namespace 'com.ismael.librerias'
     compileSdk 35
 
     defaultConfig {

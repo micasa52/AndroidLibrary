@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -414,16 +415,44 @@ public class GestorArchivos {
     }
 
     /**
+     * Guarda texto en un archivo dentro del almacenamiento externo específico fuera del ámbito de la app.
+     * "Context.getContentResolver()"  - para < Q en MediaStore.Downloads y para > Q en MediaStore.Documents
+     * @param activity      Contexto de la aplicación.
+     * @param uri           Direccion Uri del archivo a crear/sobrescribir.
+     * @param contenido     Texto a guardar.
+     * @return true si se guardó correctamente, false en caso contrario.
+     */
+    public static boolean escribirTextoEnUri(Activity activity, Uri uri, String contenido) {
+        try{
+            OutputStream os = activity.getApplicationContext().getContentResolver().openOutputStream(uri);
+            if(os != null){
+                os.write(contenido.getBytes(StandardCharsets.UTF_8));
+                msn = "Archivo guardado en: " + uri.toString();
+
+                return true;
+            }else{
+                msn = "No se pudo abrir el archivo para escritura.";
+                return false;
+            }
+        }catch (IOException ioe){
+            msn = "Error al guardar archivo " + ioe.getMessage();
+            ioe.printStackTrace();
+
+            return false;
+        }
+    }
+
+    /**
      * Guarda una imágen en un archivo dentro del almacenamiento interno específico de la app.
      *
-     * @param context       Contexto de la aplicación.
+     * @param activity      Activity desde la que se hace la llamada.
      * @param bitmap        Imagen a guardar.
      * @param nombreCarpeta Nombre de la carpeta a crear.
      * @param nombreArchivo Nombre del archivo a crear/sobrescribir.
      * @return true si se guardó correctamente, false en caso contrario.
      */
-    public static boolean guardarBitmapEnMediaStore(Context context, Bitmap bitmap, String nombreCarpeta, String nombreArchivo) {
-        if (context == null || bitmap == null || nombreCarpeta == null || nombreCarpeta.isEmpty() ||
+    public static boolean guardarBitmapEnMediaStore(Activity activity, Bitmap bitmap, String nombreCarpeta, String nombreArchivo) {
+        if (activity == null || bitmap == null || nombreCarpeta == null || nombreCarpeta.isEmpty() ||
                 nombreArchivo == null || nombreArchivo.isEmpty()) {
             Log.i(TAG_INFO, "Error de parámetros. No validos");
             return false;
@@ -477,6 +506,7 @@ public class GestorArchivos {
 
         return imagenFile;
     }
+
     /**
      * Obtiene un File con la dirección del nombreArchivo en una subcarpeta en la zona externa del ámbito de la app
      * Environment.getExternalStorageDirectory()
@@ -567,7 +597,7 @@ public class GestorArchivos {
         msn = mensaje;
     }
 
-    public String getMsn(){
+    public static String getMsn(){
         return msn;
     }
 }
