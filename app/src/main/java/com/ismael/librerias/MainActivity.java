@@ -31,8 +31,6 @@ import com.ismael.milibreriautilidades.GestorPermisos;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG_INFO = "TAG_MainActivity";
@@ -45,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
 
 //    private final String SUB_CARPETA = "MiAppFotos";
-    private final String SUB_CARPETA = "MiAppFotos";
-    private final String NOMBRE_ARCHIVO_FOTO = "MiArchivoImagenDePrueba";;
+//    private final String SUB_CARPETA = "MiAppFotos";
+    private final String SUB_CARPETA = "";
+    private final String NOMBRE_ARCHIVO_FOTO = "MiArchivoImagenDePrueba.jpg";
     private final String NOMBRE_ARCHIVO_DOCUMENTO = "MiArchivoDocumento.txt";
 
     private File rutaArchivoActual;
@@ -91,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                accion_btn_guardar();
-                accion_btn_guardar2();
+//                accion_btn_guardar2();
+                accion_btn_guardar3();
             }
         });
 
@@ -110,6 +110,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // 1º mét0do de accion del btn_guardar
+    private void accion_btn_guardar() {
+        contenido = txt_texto.getText().toString();
+        boolean guardado = false;
+
+        if(contenido != null && !contenido.isEmpty()) {
+//            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MODO_INTERNO_AMBITO, GestorArchivos.TIPO_TEXTO);
+//            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MODO_INTERNO_CACHE, GestorArchivos.TIPO_TEXTO);
+//            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MODO_EXTERNO_AMBITO, GestorArchivos.TIPO_TEXTO);
+//            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MODO_EXTERNO_CACHE, GestorArchivos.TIPO_TEXTO);
+//            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MODO_EXTERNO_NO_AMBITO, GestorArchivos.TIPO_TEXTO);
+//            guardado = GestorArchivos.saveTextToDowloads(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido);
+            guardado = GestorArchivos.saveContentToUri(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, contenido, GestorArchivos.TIPO_IMAGEN);
+            if (guardado) {
+                msn = GestorArchivos.getMsn();
+//                txt_texto.setText("");
+            } else
+                msn = GestorArchivos.getMsn();
+
+            Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
+        } else {
+            msn = "No se ha podido guardar el texto";
+            Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // 2º mét0do de accion del btn_guardar 
     private void accion_btn_guardar2() {
         contenido = txt_texto.getText().toString();
         boolean guardado = false;
@@ -121,19 +148,7 @@ public class MainActivity extends AppCompatActivity {
             contenidoIntent.putExtra(Intent.EXTRA_TITLE, NOMBRE_ARCHIVO_DOCUMENTO); // EXTRA_TITLE para especificar el nombre del archivo
 
             // Opcional: Especificar un directorio inicial (puede que no todos los selectores lo respeten)
-            Uri documentsUri = null; // Por ejemplo, directorio de descargas
-            // PARA VERSIONES >= Q
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                documentsUri = MediaStore.Downloads.EXTERNAL_CONTENT_URI;
-            }else
-            // PARA VERSIONES < Q
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
-                try {
-                    documentsUri = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO).toURI();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
+            Uri documentsUri = Uri.EMPTY; // Por ejemplo, directorio de descargas
 
             contenidoIntent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, documentsUri);
 
@@ -143,24 +158,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void accion_btn_guardar() {
+    // 3º mét0do de acción del btn_guardar
+    private void accion_btn_guardar3() {
         contenido = txt_texto.getText().toString();
-        boolean guardado = false;
 
-        if(contenido != null && !contenido.isEmpty()) {
-            guardado = GestorArchivos.guardarTextoExternoFueraAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido);
-            if (guardado) {
-                Toast.makeText(this, "El texto se ha guardado correctamente", Toast.LENGTH_LONG).show();
-//                txt_texto.setText("");
-            } else
-                Toast.makeText(this, "El texto no se pudo guardar", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "No hay texto para grabar", Toast.LENGTH_LONG).show();
+        if(contenido != null && !contenido.isEmpty()){
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_PRIVATE);
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_CACHE, GestorArchivos.TIPO_AUDIO);
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_NO_AMBITO, GestorArchivos.TIPO_NULO); // Para guardar un archivo en la memoria interna fuera del ambito de la app
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_FILES, GestorArchivos.TIPO_TEXTO);
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_CACHE, GestorArchivos.TIPO_TEXTO);
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+//            boolean okGuardar = GestorArchivos.guardarTextoAmbito(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_PRIVATE);
+
+            String msn = GestorArchivos.getMsn();
+            Toast.makeText(getApplicationContext(), msn, Toast.LENGTH_LONG).show();
         }
     }
-
+    
+    // Mét0do de accion del btn_leer
     private void accion_btn_leer() {
-        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO);
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_PRIVATE);
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_INT_AMBITO_CACHE, GestorArchivos.TIPO_AUDIO);
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_INT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_INT_NO_AMBITO, GestorArchivos.TIPO_NULO); // Para leer un archivo en la memoria interna fuera del ambito de la app
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_EXT_AMBITO_FILES, GestorArchivos.TIPO_TEXTO);
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_EXT_AMBITO_CACHE, GestorArchivos.TIPO_TEXTO);
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_EXT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+//        String texto = GestorArchivos.leerTextoExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_PRIVATE);
         if(texto != null && !texto.isEmpty() && !texto.contains("Error:")){
             Toast.makeText(this, "El texto ha sido leído correctamente", Toast.LENGTH_LONG).show();
             lbl_texto.setText(texto);
@@ -168,13 +194,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, texto, Toast.LENGTH_LONG).show();
 
     }
-
+    
+    // Mét0do de accion del btn_foto
     private void accion_btn_foto(){
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Asegúrate de que hay una actividad de cámara para manejar el intent
         if (pictureIntent.resolveActivity(getPackageManager()) != null){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                medianteURI();
+                guardarImagenMedianteURI();
             }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
                 medienteIntent(pictureIntent);
             }
@@ -183,12 +210,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void medianteURI() {
+    private void guardarImagenMedianteURI() {
         String msn = "";
 
         try {
             rutaArchivoActual = GestorArchivos.obtenerFilesDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO);
-            uriImagenArchivoCamara = GestorArchivos.obtenerUriExterna(this, rutaArchivoActual);
+            uriImagenArchivoCamara = GestorArchivos.obtenerDirUri(this, rutaArchivoActual);
             Log.i(TAG_INFO, "La footo será guardada en: " + uriImagenArchivoCamara.toString());
 
             // Pasar el URI a la cámara
@@ -206,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         String msn = "";
         try {
 //        rutaArchivoActual = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), SUB_CARPETA + "/" + NOMBRE_ARCHIVO_FOTO);
-            rutaArchivoActual = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO);
+            rutaArchivoActual = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_IMAGEN);
 
             if (rutaArchivoActual != null) {
                 // Para Android N (API 24) y superior, DEBES usar FileProvider.
@@ -229,6 +256,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i(TAG_INFO, "Lanzando cámara. URI: " + uriImagenArchivoCamara + ", Ruta: " + rutaArchivoActual.getPath());
                 camaraIntentLauncher.launch(camaraIntent);
+            }else {
+                msn = GestorArchivos.getMsn();
+                Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
             }
         }catch (IOException ioe){
             msn = "No se ha podido crear o no se ha encontrado la carpeta.";
@@ -303,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
             }
     );
 
-    // Lanzador para guardar texto en un archivo en la memoria externa fuera del ámbito de la app
+    // Lanzador del explorador de archivos para seleccionar donde guardar texto en un archivo en la memoria externa fuera del ámbito de la app
     private final ActivityResultLauncher<Intent> crearDocumentoLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result ->{
                 int resultCode = result.getResultCode();
@@ -311,10 +341,12 @@ public class MainActivity extends AppCompatActivity {
                 if(resultCode == Activity.RESULT_OK && dataIntent != null){
                     Uri uri = result.getData().getData();
                     if(uri != null){
-                        GestorArchivos.escribirTextoEnUri(this, uri, contenido);
+                        GestorArchivos.escribirTextoEnUriExterno(this, uri, contenido);
                         msn = GestorArchivos.getMsn();
-                        Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
-
+                        Log.i(TAG_INFO, msn);
+                        if(msn != null && !msn.isEmpty()) {
+                            Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
+                        }
                     }else{
                         msn = "No se pudo obtener el URI.";
                         Toast.makeText(this.getApplicationContext(), msn, Toast.LENGTH_LONG).show();
