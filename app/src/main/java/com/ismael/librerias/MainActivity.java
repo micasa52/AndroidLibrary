@@ -36,8 +36,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG_INFO = "TAG_MainActivity";
-    private final String TAG_CONTENIDO = "CONTENIDO";
-    private final String TAG_NOMBRE_ARCHIVO = "ARCHIVO";
+//    private final String TAG_CONTENIDO = "CONTENIDO";
+//    private final String TAG_NOMBRE_ARCHIVO = "ARCHIVO";
 
     private EditText txt_texto;
     private TextView lbl_texto;
@@ -195,14 +195,14 @@ public class MainActivity extends AppCompatActivity {
         boolean okGuardar = false;
 
         if (contenido != null && !contenido.isEmpty()) {
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_PRIVATE);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_CACHE, GestorArchivos.TIPO_AUDIO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_NO_AMBITO, GestorArchivos.TIPO_NULO); // Para guardar un archivo en la memoria interna fuera del ambito de la app
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_FILES, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_CACHE, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_PRIVATE);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_PRIVATE);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_CACHE, GestorArchivos.TIPO_AUDIO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_NO_AMBITO, GestorArchivos.TIPO_NULO); // Para guardar un archivo en la memoria interna fuera del ambito de la app
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_FILES, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_CACHE, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_PRIVATE);
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 okGuardar = GestorArchivos.guardarMayoresQ(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_TEXTO);
@@ -257,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void guardarImagenMedianteURI() {
-        String msn = "";
 
         try {
             rutaArchivoActual = GestorArchivos.obtenerFilesDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO);
@@ -276,7 +275,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void medienteIntent(Intent camaraIntent) {
-        String msn = "";
         try {
 //        rutaArchivoActual = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), SUB_CARPETA + "/" + NOMBRE_ARCHIVO_FOTO);
             rutaArchivoActual = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_IMAGEN);
@@ -336,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
                     // Opcionalmente, eliminar el archivo si se creó
                     if (rutaArchivoActual != null) {
                         File f = rutaArchivoActual;
-                        if (f.exists() && f.length() == 0) f.delete();
+                        f.delete();
                     }
                 } else {
                     Log.i(TAG_INFO, "Captura fallida, resultCode: " + result.getResultCode());
@@ -350,10 +348,9 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Uri> camaraUriLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(),
             exitoso ->{
                 if(exitoso){
-                    Bitmap bitmap = null;
                     // Mostrar la imagen en el ImageView
                     // Puedes cargarla directamente desde la ruta o el URI
-                    bitmap = BitmapFactory.decodeFile(rutaArchivoActual.getPath());
+                    Bitmap bitmap = BitmapFactory.decodeFile(rutaArchivoActual.getPath());
 
                     if (bitmap != null) {
                         // Antes de llamar a setImageBitmap:
