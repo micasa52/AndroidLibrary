@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 /** ### DIFERENETES POSIBILIDADES DE GUARDAR ARCHIVOS EN LAS DIFERENTES MEMORIAS DEL DISPOSITIVO ###
  * 1. Mejor Atribución y Control: El sistema quiere que los archivos creados por una aplicación estén
@@ -105,6 +106,7 @@ import androidx.core.content.FileProvider;
  * Clase que contiene la gestión de escritura lectura de archivos en:
  * 1. Memoria interna del ámbito de la aplicación mediante File para SDK < Q
  * 2. Memoria interna del ámbito de la aplicación para SDK >= Q
+ * 5. Memoria interna fuera del ámbito de la aplicación
  * 3. Memoria externa del ámbito de la aplicación mediante File para SDK < Q
  * 4. Memoria externa del ámbito de la aplicación para SDK >= Q
  * 5. Memoria externa fuera del ámbito de la aplicación
@@ -141,6 +143,262 @@ public class GestorArchivos {
 
     private static String msn = "";
 
+    public static boolean guardarMayoresQ(Activity activity, String subCarpeta, String nombreArchivo, String contenido, int memo, String tipoArchivo) {
+        if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
+                contenido == null || contenido.isEmpty() || memo == 0 || tipoArchivo == null) {
+            msn = "Parámetros inválidos para guardarTextoAmbito.";
+            Log.e(TAG_CLASE, msn);
+            return false;
+        }
+
+        FileOutputStream fos = null;
+        try {
+            // Creamos la subcarpeta
+            File carpetaRaiz = obtenerCarpetaArchivos(activity, memo, tipoArchivo);
+            File carpetaFile = new File(carpetaRaiz, subCarpeta);      // Dirección del ámbito interno de la app
+//                File carpetaFile = new File(activity.getFilesDir(), subCarpeta);                    // Carpeta creada dentro del ámbito interno de la app
+            boolean okExists = carpetaFile.exists();
+            if (!okExists)
+//            okExists = carpetaFile.mkdir();      // Vale solo para crear una carpeta de cada vez
+                okExists = carpetaFile.mkdirs();        // Vale para crear una o varias carpetas consecutivas
+
+            if (okExists) {
+                // Context.MODE_PRIVATE: Si el archivo ya existe, se sobreescribe.
+                // Context.MODE_APPEND: Si el archivo ya existe, se añade la final.
+//                    fos = context.openFileOutput(nombreArchivo, Context.MODE_PRIVATE);    // Archivo directo en el ámbito interno de la app sin carpetas
+                File dirArchivo = new File(carpetaFile, nombreArchivo);                 // Archivo dentro de carpetas
+                fos = new FileOutputStream(dirArchivo, false);
+//                fos = activity.getApplicationContext().openFileOutput(nombreArchivo, Context.MODE_PRIVATE);       // Esto siempre graba en el ámbito privado de la app, files
+                fos.write(contenido.getBytes(StandardCharsets.UTF_8));
+
+                msn = "Archivo guardado en: " + dirArchivo;
+                Log.d(TAG_CLASE, msn);
+                // Considera no mostrar Toasts directamente desde una librería,
+                // es mejor devolver un resultado y que la app decida cómo notificar al usuario.
+                // Toast.makeText(context, "Texto guardado desde librería", Toast.LENGTH_SHORT).show();
+                return true;
+            }else{
+                msn = "Error al tener acceso a la carpeta: " + subCarpeta;
+            }
+        } catch (IOException e) {
+            msn = "Error al guardar el archivo: " + nombreArchivo;
+            Log.e(TAG_CLASE, msn, e);
+            return false;
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    msn = "Error al cerrar FileOutputStream";
+                    Log.e(TAG_CLASE, msn, e);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Guarda el texto a un archivo dentro del almacenamiento indicado por @memo y dentro de la subCarpeta
+     * indicado por @tipoArchivo.
+     * PARA LAS VERSIONES INFERIORES A Q
+     *
+     * @param activity       Contexto de la aplicación.
+     * @param subCarpeta    Nombre de la subCarpeta a crear dentro de la seleccion de memoria y tipo
+     *                      de archivo.
+     * @param nombreArchivo Nombre del archivo a leer.
+     * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
+     * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
+     * @return true si se leyó correctamente, false en caso contrario.
+     */
+    public static boolean guardarMenoresQ(Activity activity, String subCarpeta, String nombreArchivo, String contenido, int memo, String tipoArchivo) {
+        if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
+                contenido == null || contenido.isEmpty() || memo == 0 || tipoArchivo == null) {
+            msn = "Parámetros inválidos para guardarTextoAmbito.";
+            Log.e(TAG_CLASE, msn);
+            return false;
+        }
+
+        // Este File = Activity.getApplicationContext().getFilesDir() abre el archivo en la zona privada e interna de la app
+        File carpetaRaiz = obtenerCarpetaArchivos(activity, memo, tipoArchivo);
+        File carpetaFile = new File(carpetaRaiz, subCarpeta);
+//         File carpetaFile = activity.getApplicationContext().getFilesDir();
+        boolean okCarpeta = false;
+        okCarpeta = carpetaFile.exists();
+
+        if (!okCarpeta)
+            okCarpeta = carpetaFile.mkdirs();
+
+        if (okCarpeta) {
+            FileOutputStream fos = null;
+            try {
+                // Context.MODE_PRIVATE: Si el archivo ya existe, se sobreescribe.
+                // Context.MODE_APPEND: Si el archivo ya existe, se añade la final.
+//                    fos = activity.openFileOutput(nombreArchivo, Context.MODE_PRIVATE);         // Context.openFileOutput abre el archivo en la zona privada interna de la app
+                fos = new FileOutputStream(new File(carpetaFile, nombreArchivo));           // Abre el archivo en la carpeta creada dentro de la zona privada interna de la app
+                byte[] bytes = contenido.getBytes(StandardCharsets.UTF_8);
+                fos.write(bytes); // Usar UTF-8 es buena práctica
+
+                msn = "Texto guardado en: " + carpetaFile + "/" + nombreArchivo;
+                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+                Log.i(TAG_CLASE, msn);
+
+                // Opcional: Limpiar el EditText después de guardar
+                // txtDocumento.setText("");
+                return true;
+            } catch (IOException ioe) {
+                msn = "Error al guardar el archivo: " + nombreArchivo;
+                Log.e(TAG_CLASE, msn, ioe);
+                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException ioe) {
+                        msn = "Error al cerrar FileOutputStream";
+                        Log.e(TAG_CLASE, msn, ioe);
+                    }
+                }
+            }
+        }else {
+            msn = "Error al crear la carpeta: " + subCarpeta;
+            Log.e(TAG_CLASE, msn);
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Lee texto de un archivo dentro del almacenamiento indicado por @memo y dentro de la subCarpeta
+     * indicado por @tipoArchivo.
+     * PARA LAS VERSIONES SUPERIORES A TIRAMISU
+     *
+     * @param activity       Contexto de la aplicación.
+     * @param subCarpeta    Nombre de la subCarpeta a crear dentro de la seleccion de memoria y tipo
+     *                      de archivo.
+     * @param nombreArchivo Nombre del archivo a leer.
+     * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
+     * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
+     * @return texto si se guardó correctamente, "mensaje de error" en caso contrario.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    public static String leerMayoresTIRAMISU(Activity activity, String subCarpeta, String nombreArchivo, int memo, String tipoArchivo) {
+        String texto = "";
+        if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
+                memo == 0 || tipoArchivo == null) {
+            msn = "Parámetros inválidos para guardarTextoAmbito.";
+            Log.e(TAG_CLASE, msn);
+            return "Error: " + msn;
+        }
+
+        FileInputStream fis = null;
+        try {
+            // Creamo la subcarpeta
+            File carpetaRaiz = obtenerCarpetaArchivos(activity, memo, tipoArchivo);
+            File archivoFile = new File(new File(carpetaRaiz, subCarpeta), nombreArchivo);
+            boolean okExists = archivoFile.exists();
+
+            if (okExists) {
+//                fis = context.openFileInput(nombreArchivo);          // Desde la carpeta directamente del ámbito interno de la app
+                fis = new FileInputStream(archivoFile);              // Desde la/s carpeta/s creada/s en el ámbito interno de la app
+
+                // Para versiones iguales o superiores a la TIRAMISU (API 33)
+                byte[] arrayText = fis.readAllBytes();
+
+                msn = "Archivo leido desde: " + archivoFile.getPath();
+                Log.d(TAG_CLASE, msn);
+                // Considera no mostrar Toasts directamente desde una librería,
+                // es mejor devolver un resultado y que la app decida cómo notificar al usuario.
+                // Toast.makeText(context, "Texto guardado desde librería", Toast.LENGTH_SHORT).show();
+
+                texto = new String(arrayText, StandardCharsets.UTF_8);
+                return texto;
+            } else {
+                msn = "No existe la carpeta pedida";
+                return "Error: " + msn;
+            }
+        } catch (IOException e) {
+            msn = "Error al guardar el archivo: " + nombreArchivo;
+            Log.e(TAG_CLASE, msn, e);
+            return "Error: " + msn;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    msn = "Error al cerrar FileOutputStream";
+                    Log.e(TAG_CLASE, msn, e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Lee texto de un archivo dentro del almacenamiento indicado por @memo y dentro de la subCarpeta
+     * indicado por @tipoArchivo.
+     * PARA LAS VERSIONES INFERIORES A TIRAMISU
+     *
+     * @param activity       Contexto de la aplicación.
+     * @param subCarpeta    Nombre de la subCarpeta a crear dentro de la seleccion de memoria y tipo
+     *                      de archivo.
+     * @param nombreArchivo Nombre del archivo a leer.
+     * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
+     * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
+     * @return texto si se guardó correctamente, "mensaje de error" en caso contrario.
+     */
+    public static String leerMenoresTIRAMISU(Activity activity, String subCarpeta, String nombreArchivo, int memo, String tipoArchivo) {
+        String texto = "";
+        if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
+                memo == 0 || tipoArchivo == null) {
+            msn = "Parámetros inválidos para guardarTextoAmbito.";
+        }
+
+        FileInputStream fis = null;
+        try {
+            // Creamo la subcarpeta
+            File carpetaRaiz = obtenerCarpetaArchivos(activity, memo, tipoArchivo);
+            File archivoFile = new File(new File(carpetaRaiz, subCarpeta), nombreArchivo);
+            boolean okExists = archivoFile.exists();
+
+            if (okExists) {
+//                fis = context.openFileInput(nombreArchivo);          // Desde la carpeta directamente del ámbito interno de la app
+                fis = new FileInputStream(archivoFile);              // Desde la/s carpeta/s creada/s en el ámbito interno de la app
+
+                // Para versiones inferiores a la TIRAMISU
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] arrayText = new byte[1024];   // buffer para leer trozos de 1Kb
+                int n = -1;
+
+                while ((n = fis.read(arrayText)) != -1) {
+                    baos.write(arrayText, 0, n);
+                }
+
+                msn = "Archivo leido desde: " + archivoFile.getPath();
+                // Convierte los bytes acumulados en ByteArrayOutputStream a un String
+                texto = baos.toString(StandardCharsets.UTF_8.name());
+                return texto;
+            } else {
+                msn = "No existe el archivo pedido " + archivoFile;
+                return "Error: " + msn;
+            }
+        } catch (IOException e) {
+            msn = "Error al guardar el archivo: " + nombreArchivo;
+            Log.e(TAG_CLASE, msn, e);
+            return "Error: " + msn;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    msn = "Error al cerrar FileOutputStream";
+                    Log.e(TAG_CLASE, msn, e);
+                }
+            }
+        }
+    }
+
+
     /**
      * Guarda texto en un archivo dentro del almacenamiento interno específico de la app.
      * "data/data/com.ismael.librerias/files/" "/data/user/0/com.ismael.libreras/files/MiArchivo.txt"
@@ -150,9 +408,9 @@ public class GestorArchivos {
      * @param contenido     Texto a guardar.
      * @return true si se guardó correctamente, false en caso contrario.
      */
-    public static boolean guardarTextoAmbito(Activity activity, String subCarpeta, String nombreArchivo, String contenido, int memo, String tipoArchivo) {
+    public static boolean guardarTexto(Activity activity, String subCarpeta, String nombreArchivo, String contenido, int memo, String tipoArchivo) {
         if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
-                contenido == null || contenido.isEmpty()) {
+                contenido == null || contenido.isEmpty() || memo == 0 || tipoArchivo == null || tipoArchivo.isEmpty()) {
             msn = "Parámetros inválidos para guardarTextoAmbito.";
             Log.e(TAG_CLASE, msn);
             return false;
@@ -757,9 +1015,9 @@ public class GestorArchivos {
                 else if(tipoArchivo.equals(TIPO_VIDEO))
                     return new File(activity.getFilesDir(), Environment.DIRECTORY_MOVIES);
                 else if(tipoArchivo.equals(TIPO_PRIVATE))
-                    return activity.getDir(null, Context.MODE_APPEND);
+                    return activity.getDir(null, Context.MODE_PRIVATE);
                 else if(tipoArchivo.equals(TIPO_NULO))
-                    return activity.getDir("", Context.MODE_APPEND);
+                    return activity.getDir("", Context.MODE_PRIVATE);
 
             case MEMO_INT_NO_AMBITO:
                 if(tipoArchivo.equals(TIPO_IMAGEN))
@@ -833,8 +1091,11 @@ public class GestorArchivos {
 
             case MEMO_EXT_NO_AMBITO:
                 if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                    // TODO termina para memoria externa/SD
-                    return null;
+                    // TODO terminar para memoria externa/SD
+                    return Environment.getExternalStorageDirectory();
+                }else {
+                    // TODO terminar para memoria externa/SD
+                    return Environment.getExternalStorageDirectory();
                 }
             default:
                 return null;
