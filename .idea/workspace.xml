@@ -16,7 +16,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5af2752c-2027-480d-a06c-51af148738c1" name="Changes" comment="Métodos finalizados:&#10;1. findFileUriByName.&#10;2. obtenerComponentesUriExterno.&#10;3. saveContentToUri (por finalizar versiones &lt; Q.">
+    <list default="true" id="5af2752c-2027-480d-a06c-51af148738c1" name="Changes" comment="Métodos casi finalizados:&#10;1. findFileUriByName.&#10;2. obtenerComponentesUriExterno.&#10;3. saveContentToUri (por finalizar versiones &lt; Q.&#10;4. obtenerCarpetaArchivos.&#10;&#10;Quedan por finalizar a expensan de camibar la estrategia">
+      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.9/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.9/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.9/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.9/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.9/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.9/fileHashes/fileHashes.bin" afterDir="false" />
@@ -24,12 +27,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.9/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.9/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorPermisos.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorPermisos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +47,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\Ismael\.android\avd\Nexus_S_API_27_API_27.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=BIJBGUZP7HGMBENR)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -100,6 +103,11 @@
   </component>
   <component name="Git.Settings">
     <option name="PATH_TO_GIT" value="C:\Program Files\Git\bin\git.exe" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -140,9 +148,10 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Desarrollando&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Dropbox/COMPARTIR/Politica&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
@@ -321,6 +330,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Librerias [:MiLibreriaUtilidades:build]" />
+        <item itemvalue="Gradle.Librerias [:Librerias]" />
+        <item itemvalue="Gradle.Librerias [:MiLibreriaUtilidades:build]" />
         <item itemvalue="Gradle.Librerias [:Librerias]" />
         <item itemvalue="Gradle.Librerias [:MiLibreriaUtilidades:build]" />
       </list>
@@ -367,8 +379,39 @@
       <option name="project" value="LOCAL" />
       <updated>1750280804307</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Métodos casi finalizados:&#10;1. findFileUriByName.&#10;2. obtenerComponentesUriExterno.&#10;3. saveContentToUri (por finalizar versiones &lt; Q.&#10;4. obtenerCarpetaArchivos.&#10;&#10;Quedan por finalizar a expensan de camibar la estrategia">
+      <option name="closed" value="true" />
+      <created>1750939525659</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1750939525659</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/Desarrollando" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -376,109 +419,95 @@
     </ignored-roots>
     <MESSAGE value="Se añade la líbrería MiLibreriaUtilidades.&#10;Contiene:&#10;1. GestorPermisos&#10;2. GestorArchivos" />
     <MESSAGE value="Comit inicial de proyecto existente" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comit inicial de proyecto existente" />
+    <MESSAGE value="Métodos casi finalizados:&#10;1. findFileUriByName.&#10;2. obtenerComponentesUriExterno.&#10;3. saveContentToUri (por finalizar versiones &lt; Q.&#10;4. obtenerCarpetaArchivos.&#10;&#10;Quedan por finalizar a expensan de camibar la estrategia" />
+    <option name="LAST_COMMIT_MESSAGE" value="Métodos casi finalizados:&#10;1. findFileUriByName.&#10;2. obtenerComponentesUriExterno.&#10;3. saveContentToUri (por finalizar versiones &lt; Q.&#10;4. obtenerCarpetaArchivos.&#10;&#10;Quedan por finalizar a expensan de camibar la estrategia" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>175</line>
+          <line>419</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>156</line>
+          <line>400</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>164</line>
+          <line>408</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>131</line>
+          <line>154</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>159</line>
+          <line>403</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>218</line>
+          <line>462</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>213</line>
+          <line>457</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>259</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>340</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>347</line>
+          <line>591</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>402</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>213</line>
+          <line>251</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>218</line>
+          <line>257</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>221</line>
+          <line>260</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>305</line>
+          <line>344</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>318</line>
+          <line>357</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>617</line>
+          <line>861</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>611</line>
+          <line>855</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>613</line>
+          <line>857</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>631</line>
+          <line>875</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -488,198 +517,288 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>201</line>
+          <line>240</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>237</line>
+          <line>276</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>246</line>
+          <line>285</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>239</line>
+          <line>278</line>
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>253</line>
+          <line>292</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>276</line>
+          <line>315</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>494</line>
+          <line>738</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>517</line>
+          <line>761</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>337</line>
+          <line>376</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>342</line>
+          <line>381</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>340</line>
+          <line>379</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>416</line>
+          <line>660</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>479</line>
+          <line>723</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>448</line>
+          <line>692</line>
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>431</line>
+          <line>675</line>
           <option name="timeStamp" value="74" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>100</line>
+          <line>123</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>191</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>512</line>
+          <line>756</line>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>706</line>
+          <line>950</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>871</line>
+          <line>1118</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>272</line>
+          <line>311</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>1012</line>
+          <line>1259</line>
           <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>1026</line>
+          <line>1273</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>1049</line>
+          <line>1296</line>
           <option name="timeStamp" value="98" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>1074</line>
+          <line>1321</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>1077</line>
+          <line>1324</line>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>1080</line>
+          <line>1327</line>
           <option name="timeStamp" value="101" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>885</line>
+          <line>1132</line>
           <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>908</line>
+          <line>1155</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>914</line>
+          <line>1161</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>140</line>
+          <line>163</line>
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>92</line>
+          <line>115</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>152</line>
+          <line>175</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>175</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>162</line>
+          <line>185</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>403</line>
+          <line>647</line>
           <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
-          <line>746</line>
-          <option name="timeStamp" value="112" />
+          <line>146</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>164</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>201</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>218</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>991</line>
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>992</line>
+          <option name="timeStamp" value="127" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>1008</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>1024</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>1038</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>1054</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>1068</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MiLibreriaUtilidades/src/main/java/com/ismael/milibreriautilidades/GestorArchivos.java</url>
+          <line>1078</line>
+          <option name="timeStamp" value="133" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>168</line>
-          <option name="timeStamp" value="113" />
+          <line>198</line>
+          <option name="timeStamp" value="140" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
-          <line>184</line>
-          <option name="timeStamp" value="114" />
+          <line>200</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>203</line>
+          <option name="timeStamp" value="143" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>206</line>
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>223</line>
+          <option name="timeStamp" value="145" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>225</line>
+          <option name="timeStamp" value="146" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>231</line>
+          <option name="timeStamp" value="147" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>426</line>
+          <option name="timeStamp" value="148" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="152" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ismael/librerias/MainActivity.java</url>
+          <line>417</line>
+          <option name="timeStamp" value="153" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

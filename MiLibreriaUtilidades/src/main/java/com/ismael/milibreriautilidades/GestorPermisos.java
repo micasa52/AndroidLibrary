@@ -3,12 +3,24 @@ package com.ismael.milibreriautilidades;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import static java.security.AccessController.getContext;
+
 /**************************************************************************************************
  * Fecha: 10-06-2025
  * Autor: Ismael Galán Fernández
@@ -17,6 +29,7 @@ import androidx.core.content.ContextCompat;
  * 1. CAMARA -> Hace falta el permiso en el Manifest.xml
  * 2. LECTURA -> No hace falta para versiones superiores o iguales a Q
  * 3. ESCIRUTRA -> No hace falta para versiones superiores o iguales a Q
+ * 4. ACCESO TOTAL A ARCHIVOS -> Solo para versiones superiores o iguales a R
  *
  * TODO Es aconsejable implementar en la activity el método para el control de la no aceptación:
  * @Override public void onRequestPermissionsResult(
@@ -33,13 +46,14 @@ public class GestorPermisos {
     public static int REQUEST_LECTURA_PERMISSION = 200;
     public static int REQUEST_ESCRITURA_PERMISSION = 300;
 
+    private static String msn = "";
+
     /**
      * Pide el permiso de uso de la cámara de fotos
      * @param activity Activity para obtener el Contexto de la aplicación.
      * @return no devuelve nada (de momento)
      */
     public static void obtenerPermisoCamara(Activity activity){
-        String msn = "";
         // Permiso de Cámara
         if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -98,5 +112,54 @@ public class GestorPermisos {
                 Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    /**
+     * Pide el permiso de acceso total a los archivos (solo para versiones mayores de R)
+     * @param result ActivityResult para obtener el resultCode del lanzamiento del permiso.
+     * Se puede recoger un mensaje mediante el getter "getMsn()".
+     */
+    // Para solicitar el permiso MANAGE_EXTERNAL_STORAGE (a partir de Android 11)
+    public static void comprobarPermisoEscritura(ActivityResult result) {
+        int resultCode = result.getResultCode();
+        if(resultCode == Activity.RESULT_OK) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    // Permiso otorgado
+                    msn = "Permiso de acceso a todo el almacenamiento concedido";
+                } else {
+                    // Permiso denegado
+                    msn = "Permiso de acceso a todo el almacenamiento denegado";
+                }
+            }
+        }else{
+            msn = "Permiso de acceso a todo el almacenamiento denegado";
+        }
+    }
+
+    /**
+     * Pide el Intent que lanzará la ventana de activación del permiso de acceso total a los archivos
+     * (solo para versiones mayores de R)
+     * @param activity Activity para obtener el Contexto de la aplicación.
+     * @return Intent para lanzar el la ventana de activación del permiso
+     *      Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+     * Se puede recoger un mensaje mediante el getter "getMsn()".
+     */
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    public static Intent obtenerIntent(Activity activity) {
+        Intent intent = null;
+        // Solicitar permisos para almacenamiento externo
+        if (!Environment.isExternalStorageManager()) {
+            intent =new  Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            intent.setData(Uri.fromParts("package", activity.getPackageName(), null));
+        }else{
+            msn = "Permiso de acceso a todo el almacenamiento concedido";
+        }
+        return intent;
+    }
+
+    // ####################### Setters y Getters #######################
+    public static String getMsn() {
+        return msn;
     }
 }
