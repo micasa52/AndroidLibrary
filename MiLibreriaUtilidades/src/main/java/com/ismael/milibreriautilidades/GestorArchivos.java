@@ -139,10 +139,23 @@ public class GestorArchivos {
     public final static String TIPO_PRIVATE= "private";         // Si el tipo de archivo es para guardar en la carpeta raiz del ámbito de la app
     public final static String TIPO_NULO = "";                  // Si el tipo de archivo es para guardar en la carpeta raiz
 
-    public final static String TIPO_VERSION_Q = "versionQ";     // Si el tipo de archivo es para guardar en la carpeta raiz
+//    public final static String TIPO_VERSION_Q = "versionQ";     // Si el tipo de archivo es para guardar en la carpeta raiz
 
     private static String msn = "";
 
+    /**
+     * Guarda el texto a un archivo dentro del almacenamiento indicado por @memo y dentro de la subCarpeta
+     * indicado por @tipoArchivo.
+     * PARA LAS VERSIONES SUPERIORES A Q
+     *
+     * @param activity       Contexto de la aplicación.
+     * @param subCarpeta    Nombre de la subCarpeta a crear dentro de la seleccion de memoria y tipo
+     *                      de archivo.
+     * @param nombreArchivo Nombre del archivo a leer.
+     * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
+     * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
+     * @return true si se guardó correctamente, false en caso contrario.
+     */
     public static boolean guardarMayoresQ(Activity activity, String subCarpeta, String nombreArchivo, String contenido, int memo, String tipoArchivo) {
         if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
                 contenido == null || contenido.isEmpty() || memo == 0 || tipoArchivo == null) {
@@ -209,7 +222,7 @@ public class GestorArchivos {
      * @param nombreArchivo Nombre del archivo a leer.
      * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
      * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
-     * @return true si se leyó correctamente, false en caso contrario.
+     * @return true si se guardó correctamente, false en caso contrario.
      */
     public static boolean guardarMenoresQ(Activity activity, String subCarpeta, String nombreArchivo, String contenido, int memo, String tipoArchivo) {
         if (activity == null || nombreArchivo == null || nombreArchivo.isEmpty() ||
@@ -240,7 +253,6 @@ public class GestorArchivos {
                 fos.write(bytes); // Usar UTF-8 es buena práctica
 
                 msn = "Texto guardado en: " + carpetaFile + "/" + nombreArchivo;
-                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
                 Log.i(TAG_CLASE, msn);
 
                 // Opcional: Limpiar el EditText después de guardar
@@ -249,7 +261,6 @@ public class GestorArchivos {
             } catch (IOException ioe) {
                 msn = "Error al guardar el archivo: " + nombreArchivo;
                 Log.e(TAG_CLASE, msn, ioe);
-                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
             } finally {
                 if (fos != null) {
                     try {
@@ -280,7 +291,7 @@ public class GestorArchivos {
      * @param nombreArchivo Nombre del archivo a leer.
      * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
      * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
-     * @return texto si se guardó correctamente, "mensaje de error" en caso contrario.
+     * @return texto si se leyó correctamente, "mensaje de error" en caso contrario.
      */
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     public static String leerMayoresTIRAMISU(Activity activity, String subCarpeta, String nombreArchivo, int memo, String tipoArchivo) {
@@ -345,7 +356,7 @@ public class GestorArchivos {
      * @param nombreArchivo Nombre del archivo a leer.
      * @param memo           Modo de acceso a las diferentes memorias del dispositivo.
      * @param tipoArchivo    Tipo de archivo a guardar. Y subcarpeta a crear según el tipo de archivo.
-     * @return texto si se guardó correctamente, "mensaje de error" en caso contrario.
+     * @return texto si se leyó correctamente, "mensaje de error" en caso contrario.
      */
     public static String leerMenoresTIRAMISU(Activity activity, String subCarpeta, String nombreArchivo, int memo, String tipoArchivo) {
         String texto = "";
@@ -397,7 +408,6 @@ public class GestorArchivos {
             }
         }
     }
-
 
     /**
      * Guarda texto en un archivo dentro del almacenamiento interno específico de la app.

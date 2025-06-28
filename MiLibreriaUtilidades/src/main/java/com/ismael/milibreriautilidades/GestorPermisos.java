@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -40,7 +41,7 @@ import static java.security.AccessController.getContext;
  * ************************************************************************************************/
 
 public class GestorPermisos {
-    private final String TAG_INFO = "TAG_GestorPermisos";
+    private static final String TAG_INFO = "TAG_GestorPermisos";
 
     public static int REQUEST_CAMERA_PERMISSION = 100;
     public static int REQUEST_LECTURA_PERMISSION = 200;
@@ -64,7 +65,7 @@ public class GestorPermisos {
         } else {
             // Permiso ya concedido, proceder a lanzar la cámara
             msn = "Permiso de Cámara concedido";
-            Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+            Log.i(TAG_INFO, msn);
         }
     }
 
@@ -86,7 +87,7 @@ public class GestorPermisos {
             } else {
                 // Permiso ya concedido para la lectura de archivos
                 msn = "Permiso de Lectura concedido";
-                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+                Log.i(TAG_INFO, msn);
             }
         }
     }
@@ -109,7 +110,7 @@ public class GestorPermisos {
             } else {
                 // Permiso ya concedido para la Escritura de archivos
                 msn = "Permiso de Escritura concedido";
-                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+                Log.i(TAG_INFO, msn);
             }
         }
     }
@@ -127,13 +128,16 @@ public class GestorPermisos {
                 if (Environment.isExternalStorageManager()) {
                     // Permiso otorgado
                     msn = "Permiso de acceso a todo el almacenamiento concedido";
+                    Log.i(TAG_INFO, msn);
                 } else {
                     // Permiso denegado
                     msn = "Permiso de acceso a todo el almacenamiento denegado";
+                    Log.i(TAG_INFO, msn);
                 }
             }
         }else{
             msn = "Permiso de acceso a todo el almacenamiento denegado";
+            Log.i(TAG_INFO, msn);
         }
     }
 
@@ -154,6 +158,7 @@ public class GestorPermisos {
             intent.setData(Uri.fromParts("package", activity.getPackageName(), null));
         }else{
             msn = "Permiso de acceso a todo el almacenamiento concedido";
+            Log.i(TAG_INFO, msn);
         }
         return intent;
     }
