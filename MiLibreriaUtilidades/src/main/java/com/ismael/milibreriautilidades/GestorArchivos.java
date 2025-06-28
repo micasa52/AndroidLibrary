@@ -129,7 +129,7 @@ public class GestorArchivos {
     public final static int MEMO_EXT_AMBITO_FILES = 10;         // Para acceder a la memoria externa del ámbito files de la app
     public final static int MEMO_EXT_NO_AMBITO = 20;            // Para acceder a la memoria externa fuera del ámbito de la app
     public final static int MEMO_EXT_AMBITO_CACHE = 30;         // Para acceder a la memoria externa del ámbito caché de la app
-    public final static int MEMO_EXT_AMBITO_RAIZ = 40;          // Para acceder a la memoria externa del ámbito raiz de la app
+//    public final static int MEMO_EXT_AMBITO_RAIZ = 40;          // Para acceder a la memoria externa del ámbito raiz de la app
     // Tipos de archivos
     public final static String TIPO_IMAGEN = "imagen";          // Si el tipo de archivo es para guardar en la carpeta PICTURES del ambito de la app
     public final static String TIPO_TEXTO = "texto";            // Si el tipo de archivo es para guardar en la carpeta DOCUMENTS del ambito de la app
@@ -236,8 +236,7 @@ public class GestorArchivos {
         File carpetaRaiz = obtenerCarpetaArchivos(activity, memo, tipoArchivo);
         File carpetaFile = new File(carpetaRaiz, subCarpeta);
 //         File carpetaFile = activity.getApplicationContext().getFilesDir();
-        boolean okCarpeta = false;
-        okCarpeta = carpetaFile.exists();
+        boolean okCarpeta = carpetaFile.exists();
 
         if (!okCarpeta)
             okCarpeta = carpetaFile.mkdirs();
@@ -472,8 +471,7 @@ public class GestorArchivos {
             File carpetaRaiz = obtenerCarpetaArchivos(activity, memo, tipoArchivo);
             File carpetaFile = new File(carpetaRaiz, subCarpeta);
 //         File carpetaFile = activity.getApplicationContext().getFilesDir();
-            boolean okCarpeta = false;
-            okCarpeta = carpetaFile.exists();
+            boolean okCarpeta = carpetaFile.exists();
 
             if (!okCarpeta)
                 okCarpeta = carpetaFile.mkdirs();
@@ -889,7 +887,7 @@ public class GestorArchivos {
 
         // Asegurese de que el directorio exista (getExternalFilesDir lo crea si es necesario en al mayoría de los casos)
         boolean okCarpeta = dirCarpeta.exists();
-        if (dirCarpeta != null && !okCarpeta) {
+        if (!okCarpeta) {
             okCarpeta = dirCarpeta.mkdirs();
         }
 
@@ -932,7 +930,7 @@ public class GestorArchivos {
 
         // Asegurese de que el directorio exista (getExternalFilesDir lo crea si es necesario en al mayoría de los casos)
         boolean okCarpeta = dirCarpeta.exists();
-        if (dirCarpeta != null && !okCarpeta) {
+        if (!okCarpeta) {
             okCarpeta = dirCarpeta.mkdirs();
         }
 
@@ -964,8 +962,6 @@ public class GestorArchivos {
      * @return true si se guardó correctamente, false en caso contrario.
      */
     public static Uri obtenerDirUri(Activity activity, File fileArchivo) throws IOException{
-        String msn = "";
-
         // Continuar solo si el File fue creado exitosamente
         if (fileArchivo != null) {
             // Obtener el URI para el archivo usando FileProvider
@@ -1005,8 +1001,6 @@ public class GestorArchivos {
      * pero siempre en los ámbitos privados de la app.
      *
      * Para versiones < Q
-     *
-     *
      * @param activity Contexto de la aplicación.
      * @param modo Modo de acceso a las diferentes zonas de memoria.
      * @param tipoArchivo Según el tipo de archivos se guardará en una carpeta u otra.
@@ -1014,90 +1008,102 @@ public class GestorArchivos {
     private static File obtenerCarpetaArchivos(Activity activity, int modo, String tipoArchivo) {
         switch (modo) {
             case MEMO_INT_AMBITO_FILES:
-                if(tipoArchivo.equals(TIPO_IMAGEN))
-                    return new File(activity.getFilesDir(), Environment.DIRECTORY_PICTURES);
-                else if(tipoArchivo.equals(TIPO_TEXTO))
-                    return new File(activity.getFilesDir(), Environment.DIRECTORY_DOCUMENTS);
-                else if(tipoArchivo.equals(TIPO_DOWLOADS))
-                    return new File(activity.getFilesDir(), Environment.DIRECTORY_DOWNLOADS);
-                else if(tipoArchivo.equals(TIPO_AUDIO))
-                    return new File(activity.getFilesDir(), Environment.DIRECTORY_MUSIC);
-                else if(tipoArchivo.equals(TIPO_VIDEO))
-                    return new File(activity.getFilesDir(), Environment.DIRECTORY_MOVIES);
-                else if(tipoArchivo.equals(TIPO_PRIVATE))
-                    return activity.getDir(null, Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_NULO))
-                    return activity.getDir("", Context.MODE_PRIVATE);
+                switch (tipoArchivo) {
+                    case TIPO_IMAGEN:
+                        return new File(activity.getFilesDir(), Environment.DIRECTORY_PICTURES);
+                    case TIPO_TEXTO:
+                        return new File(activity.getFilesDir(), Environment.DIRECTORY_DOCUMENTS);
+                    case TIPO_DOWLOADS:
+                        return new File(activity.getFilesDir(), Environment.DIRECTORY_DOWNLOADS);
+                    case TIPO_AUDIO:
+                        return new File(activity.getFilesDir(), Environment.DIRECTORY_MUSIC);
+                    case TIPO_VIDEO:
+                        return new File(activity.getFilesDir(), Environment.DIRECTORY_MOVIES);
+                    case TIPO_PRIVATE:
+                        return activity.getDir(null, Context.MODE_PRIVATE);
+                    case TIPO_NULO:
+                        return activity.getDir("", Context.MODE_PRIVATE);
+                }
 
             case MEMO_INT_NO_AMBITO:
-                if(tipoArchivo.equals(TIPO_IMAGEN))
-                    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                else if(tipoArchivo.equals(TIPO_TEXTO))
-                    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-                else if(tipoArchivo.equals(TIPO_DOWLOADS))
-                    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                else if(tipoArchivo.equals(TIPO_AUDIO))
-                    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-                else if(tipoArchivo.equals(TIPO_VIDEO))
-                    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
-                else if(tipoArchivo.equals(TIPO_PRIVATE))
-                    return Environment.getExternalStoragePublicDirectory("");
-                else if(tipoArchivo.equals(TIPO_NULO))
-                    return Environment.getExternalStorageDirectory();
+                switch (tipoArchivo) {
+                    case TIPO_IMAGEN:
+                        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    case TIPO_TEXTO:
+                        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                    case TIPO_DOWLOADS:
+                        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    case TIPO_AUDIO:
+                        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+                    case TIPO_VIDEO:
+                        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+                    case TIPO_PRIVATE:
+                        return Environment.getExternalStoragePublicDirectory("");
+                    case TIPO_NULO:
+                        return Environment.getExternalStorageDirectory();
+                }
 
             case MEMO_INT_AMBITO_CACHE:
-                if(tipoArchivo.equals(TIPO_IMAGEN))
-                    return new File(activity.getCacheDir(), Environment.DIRECTORY_PICTURES);
-                else if(tipoArchivo.equals(TIPO_TEXTO))
-                    return new File(activity.getCacheDir(), Environment.DIRECTORY_DOCUMENTS);
-                else if(tipoArchivo.equals(TIPO_DOWLOADS))
-                    return new File(activity.getCacheDir(), Environment.DIRECTORY_DOWNLOADS);
-                else if(tipoArchivo.equals(TIPO_AUDIO))
-                    return new File(activity.getCacheDir(), Environment.DIRECTORY_MUSIC);
-                else if(tipoArchivo.equals(TIPO_VIDEO))
-                    return new File(activity.getCacheDir(), Environment.DIRECTORY_MOVIES);
-                else if(tipoArchivo.equals(TIPO_NULO))
-                    return activity.getCacheDir();
+                switch (tipoArchivo) {
+                    case TIPO_IMAGEN:
+                        return new File(activity.getCacheDir(), Environment.DIRECTORY_PICTURES);
+                    case TIPO_TEXTO:
+                        return new File(activity.getCacheDir(), Environment.DIRECTORY_DOCUMENTS);
+                    case TIPO_DOWLOADS:
+                        return new File(activity.getCacheDir(), Environment.DIRECTORY_DOWNLOADS);
+                    case TIPO_AUDIO:
+                        return new File(activity.getCacheDir(), Environment.DIRECTORY_MUSIC);
+                    case TIPO_VIDEO:
+                        return new File(activity.getCacheDir(), Environment.DIRECTORY_MOVIES);
+                    case TIPO_NULO:
+                        return activity.getCacheDir();
+                }
 
             case MEMO_INT_AMBITO_RAIZ:
-                if(tipoArchivo.equals(TIPO_IMAGEN))
-                    return activity.getDir(Environment.DIRECTORY_PICTURES, Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_TEXTO))
-                    return activity.getDir(Environment.DIRECTORY_DOCUMENTS, Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_DOWLOADS))
-                    return activity.getDir(Environment.DIRECTORY_DOWNLOADS, Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_AUDIO))
-                    return activity.getDir(Environment.DIRECTORY_MUSIC, Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_VIDEO))
-                    return activity.getDir(Environment.DIRECTORY_MOVIES, Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_PRIVATE))
-                    return activity.getDir("", Context.MODE_PRIVATE);
-                else if(tipoArchivo.equals(TIPO_NULO))
-                    return activity.getDir(null, Context.MODE_PRIVATE);
+                switch (tipoArchivo) {
+                    case TIPO_IMAGEN:
+                        return activity.getDir(Environment.DIRECTORY_PICTURES, Context.MODE_PRIVATE);
+                    case TIPO_TEXTO:
+                        return activity.getDir(Environment.DIRECTORY_DOCUMENTS, Context.MODE_PRIVATE);
+                    case TIPO_DOWLOADS:
+                        return activity.getDir(Environment.DIRECTORY_DOWNLOADS, Context.MODE_PRIVATE);
+                    case TIPO_AUDIO:
+                        return activity.getDir(Environment.DIRECTORY_MUSIC, Context.MODE_PRIVATE);
+                    case TIPO_VIDEO:
+                        return activity.getDir(Environment.DIRECTORY_MOVIES, Context.MODE_PRIVATE);
+                    case TIPO_PRIVATE:
+                        return activity.getDir("", Context.MODE_PRIVATE);
+                    case TIPO_NULO:
+                        return activity.getDir(null, Context.MODE_PRIVATE);
+                }
 
             case MEMO_EXT_AMBITO_FILES:
-                if(tipoArchivo.equals(TIPO_IMAGEN))
-                    return activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                else if(tipoArchivo.equals(TIPO_TEXTO))
-                    return activity.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-                else if(tipoArchivo.equals(TIPO_DOWLOADS))
-                    return activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-                else if(tipoArchivo.equals(TIPO_AUDIO))
-                    return activity.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
-                else if(tipoArchivo.equals(TIPO_VIDEO))
-                    return activity.getExternalFilesDir(Environment.DIRECTORY_MOVIES);
-                else if(tipoArchivo.equals(TIPO_NULO))
-                    return activity.getExternalFilesDir(null);
+                switch (tipoArchivo) {
+                    case TIPO_IMAGEN:
+                        return activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    case TIPO_TEXTO:
+                        return activity.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+                    case TIPO_DOWLOADS:
+                        return activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+                    case TIPO_AUDIO:
+                        return activity.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+                    case TIPO_VIDEO:
+                        return activity.getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+                    case TIPO_NULO:
+                        return activity.getExternalFilesDir(null);
+                }
 
             case MEMO_EXT_AMBITO_CACHE:
-                if(tipoArchivo.equals(TIPO_IMAGEN))
-                    return new File(activity.getExternalCacheDir(), Environment.DIRECTORY_PICTURES);
-                else if(tipoArchivo.equals(TIPO_TEXTO))
-                    return new File(activity.getExternalCacheDir(), Environment.DIRECTORY_DOCUMENTS);
-                else if(tipoArchivo.equals(TIPO_DOWLOADS))
-                    return new File(activity.getExternalCacheDir(), Environment.DIRECTORY_DOWNLOADS);
-                else if(tipoArchivo.equals(TIPO_NULO))
-                    return activity.getExternalCacheDir();
+                switch (tipoArchivo) {
+                    case TIPO_IMAGEN:
+                        return new File(activity.getExternalCacheDir(), Environment.DIRECTORY_PICTURES);
+                    case TIPO_TEXTO:
+                        return new File(activity.getExternalCacheDir(), Environment.DIRECTORY_DOCUMENTS);
+                    case TIPO_DOWLOADS:
+                        return new File(activity.getExternalCacheDir(), Environment.DIRECTORY_DOWNLOADS);
+                    case TIPO_NULO:
+                        return activity.getExternalCacheDir();
+                }
 
             case MEMO_EXT_NO_AMBITO:
                 if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
@@ -1129,16 +1135,15 @@ public class GestorArchivos {
         }
 
         Map<String, Object> parametros = obtenerComponetesUriExterno(tipoArchivo);
-        if (parametros != null && !parametros.isEmpty()) {
+        if (!parametros.isEmpty()) {
 //            String relativePath = Environment.DIRECTORY_DOWNLOADS;
 //            String relativePath = Environment.DIRECTORY_DOCUMENTS;
 //            String relativePath = Environment.DIRECTORY_MUSIC;
 //            String relativePath = Environment.DIRECTORY_MOVIES;
 //            String relativePath = Environment.DIRECTORY_PICTURES;
             String relativePath = (String) parametros.get(TAG_RELATIVE_PATH);
-            if (subCarpeta != null && !subCarpeta.isEmpty()) {
-                relativePath += "/" + subCarpeta + "/";
-            }
+            relativePath += "/" + subCarpeta + "/";
+
 
             ContentResolver resolver = activity.getContentResolver();
             ContentValues contentValues = new ContentValues();
