@@ -138,6 +138,7 @@ public class GestorPermisos {
     /**
      * Pide el Intent que lanzará la ventana de activación del permiso de acceso total a los archivos
      * (solo para versiones mayores de R)
+     * Requiere el permiso MANAGE_EXTERNAL_STORAGE (a partir de Android 11) en el manifest
      * @param activity Activity para obtener el Contexto de la aplicación.
      * @return Intent para lanzar el la ventana de activación del permiso
      *      Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
