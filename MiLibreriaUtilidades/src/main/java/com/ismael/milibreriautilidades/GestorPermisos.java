@@ -2,25 +2,19 @@ package com.ismael.milibreriautilidades;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import static java.security.AccessController.getContext;
 
 /**************************************************************************************************
  * Fecha: 10-06-2025
@@ -150,7 +144,7 @@ public class GestorPermisos {
      * Se puede recoger un mensaje mediante el getter "getMsn()".
      */
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static Intent obtenerIntent(Activity activity) {
+    public static Intent obtenerTotalAccessPermisionIntent(Activity activity) {
         Intent intent = null;
         // Solicitar permisos para almacenamiento externo
         if (!Environment.isExternalStorageManager()) {
