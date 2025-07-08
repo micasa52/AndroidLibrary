@@ -36,8 +36,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG_INFO = "TAG_MainActivity";
-    private final String TAG_CONTENIDO = "CONTENIDO";
-    private final String TAG_NOMBRE_ARCHIVO = "ARCHIVO";
+//    private final String TAG_CONTENIDO = "CONTENIDO";
+//    private final String TAG_NOMBRE_ARCHIVO = "ARCHIVO";
 
     private EditText txt_texto;
     private TextView lbl_texto;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         addListeners();
 
         permisos();
-//        permisoAccesoAbsoluto();
+        permisoAccesoAbsoluto();
     }
 
     private void permisoAccesoAbsoluto() {
@@ -97,14 +97,14 @@ public class MainActivity extends AppCompatActivity {
         GestorPermisos.obtenerPermisoCamara(this);
         msn += "\n" + GestorPermisos.getMsn();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-            Intent intent = GestorPermisos.obtenerIntent(this);
+            Intent intent = GestorPermisos.obtenerTotalAccessPermisionIntent(this);
             if(intent != null)
                 manageStoragePermissionLauncher.launch(intent);
             else{
                 msn += "\nPermiso de acceso a todo el almacenamiento no completado";
             }
-
         }
+        Log.i(TAG_INFO, msn);
     }
 
     private void crearControles() {
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 accion_btn_foto();
+//                accion_btn_foto2();
             }
         });
     }
@@ -195,14 +196,14 @@ public class MainActivity extends AppCompatActivity {
         boolean okGuardar = false;
 
         if (contenido != null && !contenido.isEmpty()) {
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_PRIVATE);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_CACHE, GestorArchivos.TIPO_AUDIO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_NO_AMBITO, GestorArchivos.TIPO_NULO); // Para guardar un archivo en la memoria interna fuera del ambito de la app
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_FILES, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_CACHE, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
-//            boolean okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_PRIVATE);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_PRIVATE);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_CACHE, GestorArchivos.TIPO_AUDIO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_INT_NO_AMBITO, GestorArchivos.TIPO_NULO); // Para guardar un archivo en la memoria interna fuera del ambito de la app
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_FILES, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_CACHE, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_AMBITO_RAIZ, GestorArchivos.TIPO_TEXTO);
+//            okGuardar = GestorArchivos.guardarTexto(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_PRIVATE);
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 okGuardar = GestorArchivos.guardarMayoresQ(this, SUB_CARPETA, NOMBRE_ARCHIVO_DOCUMENTO, contenido, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_TEXTO);
@@ -249,18 +250,26 @@ public class MainActivity extends AppCompatActivity {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 guardarImagenMedianteURI();
             }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
-                medienteIntent(pictureIntent);
+                medianteIntent(pictureIntent);
             }
         }else{
             Toast.makeText(this, "No se encontró aplicación de cámara.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void guardarImagenMedianteURI() {
-        String msn = "";
+    private void accion_btn_foto2(){
+        Intent takePictureIntent = GestorArchivos.obtenerFotoIntentLauncher(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_NULO);
+        if (takePictureIntent != null) {
+            camaraIntentLauncher.launch(takePictureIntent);
+        }else{
+            Toast.makeText(this, "No se encontró aplicación de cámara.", Toast.LENGTH_SHORT).show();
+        }
 
+    }
+
+    private void guardarImagenMedianteURI() {
         try {
-            rutaArchivoActual = GestorArchivos.obtenerFilesDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO);
+            rutaArchivoActual = GestorArchivos.obtenerArchivoDir(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_IMAGEN);
             uriImagenArchivoCamara = GestorArchivos.obtenerDirUri(this, rutaArchivoActual);
             Log.i(TAG_INFO, "La footo será guardada en: " + uriImagenArchivoCamara.toString());
 
@@ -275,60 +284,87 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void medienteIntent(Intent camaraIntent) {
-        String msn = "";
-        try {
+    private void medianteIntent(Intent camaraIntent) {
 //        rutaArchivoActual = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), SUB_CARPETA + "/" + NOMBRE_ARCHIVO_FOTO);
-            rutaArchivoActual = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_IMAGEN);
-
-            if (rutaArchivoActual != null) {
-                // Para Android N (API 24) y superior, DEBES usar FileProvider.
-                // Para < N, puedes usar Uri.fromFile().
-                // Esta lógica es para < Q, así que FileProvider es relevante si targetSdk >= 24.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    // Reemplaza "com.tudominio.nombredeapp.fileprovider" con tu autoridad real
-                    uriImagenArchivoCamara = FileProvider.getUriForFile(this,
-                            "com.ismael.librerias.fileprovider", // TU AUTORIDAD DE FILEPROVIDER
-                            rutaArchivoActual);
-                } else {
-                    uriImagenArchivoCamara = Uri.fromFile(rutaArchivoActual);
-                }
-
-                camaraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImagenArchivoCamara);
-                // Otorgar permisos de URI a la app de cámara si es necesario (especialmente para FileProvider)
-                // Esto se hace automáticamente por el sistema para ACTION_IMAGE_CAPTURE si el URI es de FileProvider
-                // y el FileProvider está configurado con grantUriPermissions="true".
-                // takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-                Log.i(TAG_INFO, "Lanzando cámara. URI: " + uriImagenArchivoCamara + ", Ruta: " + rutaArchivoActual.getPath());
-                camaraIntentLauncher.launch(camaraIntent);
-            }else {
-                msn = GestorArchivos.getMsn();
-                Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
+//        rutaArchivoActual = GestorArchivos.obtenerDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_IMAGEN);
+//        rutaArchivoActual = GestorArchivos.obtenerFilesDirExterno(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO);
+        rutaArchivoActual = GestorArchivos.obtenerArchivoDir(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_IMAGEN);
+        if (rutaArchivoActual != null) {
+            // Para Android N (API 24) y superior, DEBES usar FileProvider.
+            // Para < N, puedes usar Uri.fromFile().
+            // Esta lógica es para < Q, así que FileProvider es relevante si targetSdk >= 24.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                // Reemplaza "com.tudominio.nombredeapp.fileprovider" con tu autoridad real
+                uriImagenArchivoCamara = FileProvider.getUriForFile(this,
+                        "com.ismael.librerias.fileprovider", // TU AUTORIDAD DE FILEPROVIDER
+                        rutaArchivoActual);
+            } else {
+                uriImagenArchivoCamara = Uri.fromFile(rutaArchivoActual);
             }
-        }catch (IOException ioe){
-            msn = "No se ha podido crear o no se ha encontrado la carpeta.";
-            Log.e(TAG_INFO, msn, ioe);
+
+            camaraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImagenArchivoCamara);
+            // Otorgar permisos de URI a la app de cámara si es necesario (especialmente para FileProvider)
+            // Esto se hace automáticamente por el sistema para ACTION_IMAGE_CAPTURE si el URI es de FileProvider
+            // y el FileProvider está configurado con grantUriPermissions="true".
+            // takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            Log.i(TAG_INFO, "Lanzando cámara. URI: " + uriImagenArchivoCamara + ", Ruta: " + rutaArchivoActual.getPath());
+            camaraIntentLauncher.launch(camaraIntent);
+        }else {
+            msn = GestorArchivos.getMsn();
             Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
         }
     }
+
+    private Bitmap accionRequestCamaraMenorQ() {
+        Bitmap bitmap = GestorArchivos.obtenerBitmapDeFile(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_IMAGEN);
+        if(bitmap != null) {
+            File origen = GestorArchivos.obtenerArchivoDir(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_INT_AMBITO_FILES, GestorArchivos.TIPO_IMAGEN);
+            File destino = GestorArchivos.obtenerArchivoDir(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_NULO);
+
+            boolean okCopiar = GestorArchivos.copiarImagenDeFileAFile(this, origen, destino);
+            if(!okCopiar) {
+                msn = GestorArchivos.getMsn();
+                Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
+                return null;
+            }
+
+            bitmap = BitmapFactory.decodeFile(destino.getPath());
+            bitmap = GestorArchivos.scaleBitmap(bitmap, 0.5f, 0.5f);
+        }
+        msn = GestorArchivos.getMsn();
+        Toast.makeText(this, msn, Toast.LENGTH_LONG).show();
+
+        return bitmap;
+    }
+
+
 
     // Lanzador de la cámara mediante un Intent que contiene el Uri del Provider donde se guardará la imagen sacada con la cámara
     private final ActivityResultLauncher<Intent> camaraIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             result ->{
                 int resultCode = result.getResultCode();
                 if(resultCode == RESULT_OK){
-                    if(rutaArchivoActual != null && uriImagenArchivoCamara != null){
-                        Log.i(TAG_INFO, "Foto guardada en:" + rutaArchivoActual);
-                        // uriImagenArchivoCamara podría ser un content:// URI de FileProvider
-                        // o un file:// URI en versiones muy antiguas.
-                        // Para mostrarla, es más seguro usar la rutaArchivoActual si la tienes,
-                        // o el uriImagenArchivoCamara.
-                        imageView.setImageURI(Uri.fromFile(rutaArchivoActual)); // O directamente uriImagenArchivoCamara
-                        lbl_texto.setText(rutaArchivoActual.getPath());
-                    }else {
-                        Log.i(TAG_INFO, "RESULT_OK pero URI o ruta son nulos.");
-                        Toast.makeText(this, "Error: Datos de imagen nulos.", Toast.LENGTH_SHORT).show();
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        if (rutaArchivoActual != null && uriImagenArchivoCamara != null) {
+                            Log.i(TAG_INFO, "Foto guardada en:" + rutaArchivoActual);
+                            // uriImagenArchivoCamara podría ser un content:// URI de FileProvider
+                            // o un file:// URI en versiones muy antiguas.
+                            // Para mostrarla, es más seguro usar la rutaArchivoActual si la tienes,
+                            // o el uriImagenArchivoCamara.
+                            imageView.setImageURI(Uri.fromFile(rutaArchivoActual)); // O directamente uriImagenArchivoCamara
+                            lbl_texto.setText(rutaArchivoActual.getPath());
+                        } else {
+                            Log.i(TAG_INFO, "RESULT_OK pero URI o ruta son nulos.");
+                            Toast.makeText(this, "Error: Datos de imagen nulos.", Toast.LENGTH_SHORT).show();
+                        }
+                    }else
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R){
+                        Bitmap bitmap = accionRequestCamaraMenorQ();
+                        if(bitmap != null) {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                        Toast.makeText(this, msn, Toast.LENGTH_SHORT).show();
                     }
                 }else if (result.getResultCode() == Activity.RESULT_CANCELED) {
                     Log.i(TAG_INFO, "Captura cancelada.");
@@ -336,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
                     // Opcionalmente, eliminar el archivo si se creó
                     if (rutaArchivoActual != null) {
                         File f = rutaArchivoActual;
-                        if (f.exists() && f.length() == 0) f.delete();
+                        f.delete();
                     }
                 } else {
                     Log.i(TAG_INFO, "Captura fallida, resultCode: " + result.getResultCode());
@@ -350,24 +386,28 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Uri> camaraUriLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(),
             exitoso ->{
                 if(exitoso){
-                    Bitmap bitmap = null;
                     // Mostrar la imagen en el ImageView
                     // Puedes cargarla directamente desde la ruta o el URI
-                    bitmap = BitmapFactory.decodeFile(rutaArchivoActual.getPath());
+                    Bitmap bitmap = BitmapFactory.decodeFile(rutaArchivoActual.getPath());
 
                     if (bitmap != null) {
                         // Antes de llamar a setImageBitmap:
-                        float displayWidth = 0.5f; // Un tamaño razonable para la vista previa
-                        float displayHeight = 0.5f;
-                        Bitmap scaledBitmap = GestorArchivos.scaleBitmap(bitmap, displayWidth, displayHeight);
-                        if (scaledBitmap != null) {
-                            Log.i(TAG_INFO, "Bitmap dimensiones: " + scaledBitmap.getWidth() + "x" + scaledBitmap.getHeight());
-                            imageView.setImageBitmap(scaledBitmap);
-                            lbl_texto.setText(rutaArchivoActual.getPath());
-                            Log.i(TAG_INFO, "Bitmap colocado en el imageView");
-                        } else {
-                            imageView.setImageBitmap(bitmap); // Fallback al original si el escalado falla
-                            lbl_texto.setText(rutaArchivoActual.getPath());
+                        File destino = GestorArchivos.obtenerArchivoDir(this, SUB_CARPETA, NOMBRE_ARCHIVO_FOTO, GestorArchivos.MEMO_EXT_NO_AMBITO, GestorArchivos.TIPO_NULO);
+                        boolean okCopiar = GestorArchivos.copiarImagenDeFileAFile(this, rutaArchivoActual, destino);
+                        if(okCopiar) {
+                            bitmap = BitmapFactory.decodeFile(destino.getPath());
+                            float displayWidth = 0.5f; // Un tamaño razonable para la vista previa
+                            float displayHeight = 0.5f;
+                            Bitmap scaledBitmap = GestorArchivos.scaleBitmap(bitmap, displayWidth, displayHeight);
+                            if (scaledBitmap != null) {
+                                Log.i(TAG_INFO, "Bitmap dimensiones: " + scaledBitmap.getWidth() + "x" + scaledBitmap.getHeight());
+                                imageView.setImageBitmap(scaledBitmap);
+                                lbl_texto.setText(rutaArchivoActual.getPath());
+                                Log.i(TAG_INFO, "Bitmap colocado en el imageView");
+                            } else {
+                                imageView.setImageBitmap(bitmap); // Fallback al original si el escalado falla
+                                lbl_texto.setText(rutaArchivoActual.getPath());
+                            }
                         }
                     } else {
                         // Aternativamente, si el decodeFile falla por alguna razón (raro si se guardó bien)

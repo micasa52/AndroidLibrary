@@ -2,24 +2,19 @@ package com.ismael.milibreriautilidades;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import static java.security.AccessController.getContext;
 
 /**************************************************************************************************
  * Fecha: 10-06-2025
@@ -40,7 +35,7 @@ import static java.security.AccessController.getContext;
  * ************************************************************************************************/
 
 public class GestorPermisos {
-    private final String TAG_INFO = "TAG_GestorPermisos";
+    private static final String TAG_INFO = "TAG_GestorPermisos";
 
     public static int REQUEST_CAMERA_PERMISSION = 100;
     public static int REQUEST_LECTURA_PERMISSION = 200;
@@ -64,7 +59,7 @@ public class GestorPermisos {
         } else {
             // Permiso ya concedido, proceder a lanzar la cámara
             msn = "Permiso de Cámara concedido";
-            Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+            Log.i(TAG_INFO, msn);
         }
     }
 
@@ -86,7 +81,7 @@ public class GestorPermisos {
             } else {
                 // Permiso ya concedido para la lectura de archivos
                 msn = "Permiso de Lectura concedido";
-                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+                Log.i(TAG_INFO, msn);
             }
         }
     }
@@ -109,7 +104,7 @@ public class GestorPermisos {
             } else {
                 // Permiso ya concedido para la Escritura de archivos
                 msn = "Permiso de Escritura concedido";
-                Toast.makeText(activity.getApplicationContext(), msn, Toast.LENGTH_SHORT).show();
+                Log.i(TAG_INFO, msn);
             }
         }
     }
@@ -127,26 +122,30 @@ public class GestorPermisos {
                 if (Environment.isExternalStorageManager()) {
                     // Permiso otorgado
                     msn = "Permiso de acceso a todo el almacenamiento concedido";
+                    Log.i(TAG_INFO, msn);
                 } else {
                     // Permiso denegado
                     msn = "Permiso de acceso a todo el almacenamiento denegado";
+                    Log.i(TAG_INFO, msn);
                 }
             }
         }else{
             msn = "Permiso de acceso a todo el almacenamiento denegado";
+            Log.i(TAG_INFO, msn);
         }
     }
 
     /**
      * Pide el Intent que lanzará la ventana de activación del permiso de acceso total a los archivos
      * (solo para versiones mayores de R)
+     * Requiere el permiso MANAGE_EXTERNAL_STORAGE (a partir de Android 11) en el manifest
      * @param activity Activity para obtener el Contexto de la aplicación.
      * @return Intent para lanzar el la ventana de activación del permiso
      *      Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
      * Se puede recoger un mensaje mediante el getter "getMsn()".
      */
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static Intent obtenerIntent(Activity activity) {
+    public static Intent obtenerTotalAccessPermisionIntent(Activity activity) {
         Intent intent = null;
         // Solicitar permisos para almacenamiento externo
         if (!Environment.isExternalStorageManager()) {
@@ -154,6 +153,7 @@ public class GestorPermisos {
             intent.setData(Uri.fromParts("package", activity.getPackageName(), null));
         }else{
             msn = "Permiso de acceso a todo el almacenamiento concedido";
+            Log.i(TAG_INFO, msn);
         }
         return intent;
     }
