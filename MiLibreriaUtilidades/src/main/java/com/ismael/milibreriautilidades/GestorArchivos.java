@@ -467,41 +467,27 @@ public class GestorArchivos {
      * @return true si se guardó correctamente, false en caso contrario.
      */
     public static File obtenerArchivoDir(Activity activity, String subCarpeta, String nombreArchivo, int modo, String tipoArchivo){
-        if(nombreArchivo == null || nombreArchivo.isEmpty()) {
-            // Crea un nombre de archivo de imagen único
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-            nombreArchivo = "JPEG_" + timeStamp + "_";
-        }
+        if((nombreArchivo != null && !nombreArchivo.isEmpty()) || (subCarpeta != null && !subCarpeta.isEmpty())) {
+            File dirCarpeta = new File(obtenerCarpetaArchivos(activity, modo, tipoArchivo), subCarpeta);
 
-        File dirCarpeta = new File(obtenerCarpetaArchivos(activity, modo, tipoArchivo), subCarpeta);
-        // ############### ESTO NO ESTÁ PERMITIDO HACERLO ##############
-//        File dirCarpeta = new File(Environment.DIRECTORY_PICTURES, "BonolotoImagenes");
-
-        // Asegurese de que el directorio exista (getExternalFilesDir lo crea si es necesario en al mayoría de los casos)
-        boolean okCarpeta = dirCarpeta.exists();
-        if (!okCarpeta) {
-            okCarpeta = dirCarpeta.mkdirs();
-        }
-
-        // Si nombreArchivo llega nulo o vacío, se genera el nombre con el timeStamp
-        File imagenFile = null;
-        // Aquí se añade al nombre un número aleatorio para hacer archivos con nombres diferentes
-        if (okCarpeta && (!nombreArchivo.contains("JPEG") && !nombreArchivo.contains("jpg") && !nombreArchivo.contains("png"))) {
-            try {
-                imagenFile = File.createTempFile(
-                        nombreArchivo,       // prefijo
-                        ".jpg",             // sufijo
-                        dirCarpeta          // directorio
-                );
-            } catch (IOException e) {
-                msn = "Error al crear el archivo: " + nombreArchivo;
+            // Asegurese de que el directorio exista (getExternalFilesDir lo crea si es necesario en al mayoría de los casos)
+            boolean okCarpeta = dirCarpeta.exists();
+            if (!okCarpeta) {
+                okCarpeta = dirCarpeta.mkdirs();
             }
-        }else if(okCarpeta){
-            imagenFile = new File(dirCarpeta, nombreArchivo);
-        }else
-            msn = "La carpeta no existe o no se puede crear.";
 
-        return imagenFile;
+            File archivoFile = null;
+            // Aquí se añade al nombre un número aleatorio para hacer archivos con nombres diferentes
+            if (okCarpeta) {
+                archivoFile = new File(dirCarpeta, nombreArchivo);
+            } else
+                msn = "La carpeta no existe o no se puede crear.";
+
+            return archivoFile;
+        }else{
+            msn = "Alguno de los parámetros es nulo o vacio.";
+        }
+        return null;
     }
 
     /**
@@ -538,11 +524,11 @@ public class GestorArchivos {
      *
      * Para versiones < Q
      * @param activity Contexto de la aplicación.
-     * @param modo Modo de acceso a las diferentes zonas de memoria.
+     * @param memo Modo de acceso a las diferentes zonas de memoria.
      * @param tipoArchivo Según el tipo de archivos se guardará en una carpeta u otra.
      * @return File con la dirección de la carpeta donde se guardará el archivo.*/
-    private static File obtenerCarpetaArchivos(Activity activity, int modo, String tipoArchivo) {
-        switch (modo) {
+    private static File obtenerCarpetaArchivos(Activity activity, int memo, String tipoArchivo) {
+        switch (memo) {
             case MEMO_INT_AMBITO_FILES:
                 switch (tipoArchivo) {
                     case TIPO_IMAGEN:
